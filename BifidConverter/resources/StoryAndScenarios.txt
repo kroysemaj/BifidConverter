@@ -1,0 +1,13 @@
+As a GM
+I want to be able to easily encrypt messages with half and full bifid ciphers
+So that I can create puzzles for my gaming group
+
+
+Given I have a clue I wish to encrypt
+When I supply the program with an encryption algorithm (Polybius Square)
+Then the program should return an encrypted string of numbers.
+
+Given I have a clue I wish to encrypt
+When I supply the program with an encryption algorithm (Polybius Square)
+Then the program should return an encrypted string of letters
+

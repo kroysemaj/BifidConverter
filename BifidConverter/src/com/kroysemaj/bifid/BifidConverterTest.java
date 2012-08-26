@@ -119,11 +119,22 @@ public class BifidConverterTest
 	}
 
 	@Test
-	public void convertPlaintextToEncryptedTextWithSpaces()
+	public void convertPlaintextToEncryptedTextWithSpacesforBowerSleeps()
 	{
 		assertEquals("CVTLC RRWLZX", bc.encryptPlaintextToCipherText("Bower Sleeps"));
 	}
 	
+	@Test
+	public void convertPlaintextToEncryptedTextWithSpacesForJamesYork()
+	{
+		assertEquals("FLUOI BXTK", bc.encryptPlaintextToCipherText("James York"));
+	}
+	
+	@Test
+	public void convertPlaintextToEncryptedTextWithSpacesWithMultipleSpaces()
+	{
+		assertEquals("SQQQQ BSX BWY", bc.encryptPlaintextToCipherText("Roses are red"));
+	}
 		
 	/*
 	@Test

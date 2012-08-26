@@ -1,8 +1,11 @@
 package com.kroysemaj.bifid;
 
+import java.util.ArrayList;
+
 public class BifidConverter
 {
-	private char [][] polybiusSquare = new char[5][5]; //a 5x5 square in which each element holds a letter of the alphabet
+	private char[][] polybiusSquare = new char[5][5]; //a 5x5 square in which each element holds a letter of the alphabet
+	ArrayList<Integer> locOfSpaces = new ArrayList<Integer>(); //for keeping track of white space in the plain text
 	
 	BifidConverter() //fills the polybius square with the alphabet
 	{
@@ -38,7 +41,11 @@ public class BifidConverter
 		{
 			for(int j=0; j<5; ++j)
 			{
-				if(this.polybiusSquare[i][j] == c)  
+				if(c == 'J')
+				{
+					c = 'I';
+				}
+				else if(this.polybiusSquare[i][j] == c)  
 				{
 					result = Integer.toString(i+1)+Integer.toString(j+1); // Add 1 to the coordinates to make them more 
 				}														  // readable (non-zero-indexed)
@@ -89,16 +96,20 @@ public class BifidConverter
 
 		String stackedCoords = "";
 		StringBuffer sb = new StringBuffer(plaintext); 
-		
-
-		
+				
 		plaintext = sb.toString(); 
 		plaintext = plaintext.toUpperCase(); 
-		
-		
+				
 		for(int i=0; i<plaintext.length(); ++i)
 		{
-			stackedCoords += this.returnLocationOfLetter((plaintext.charAt(i)));
+			if (plaintext.charAt(i) == ' ')
+			{
+				locOfSpaces.add(i);
+			}
+			else
+			{
+				stackedCoords += this.returnLocationOfLetter((plaintext.charAt(i)));
+			}
 		}
 		
 		return this.convertStackedCoordsToHalfBifid(stackedCoords);
@@ -108,7 +119,7 @@ public class BifidConverter
 	{
 		String newHalfBifid = halfBifid;
 		String digitPair = "";
-		String encryptedMessage = "";
+		StringBuilder encryptedMessage = new StringBuilder();
 		int row = 0;
 		int col = 0;
 		
@@ -129,10 +140,17 @@ public class BifidConverter
 				newHalfBifid = newHalfBifid.substring(2);
 			}
 			
-			encryptedMessage += this.getCharAt(row-1, col-1);
+			encryptedMessage.append(this.getCharAt(row-1, col-1));
 		}
-			
-		return encryptedMessage;
+		
+		for(int i=0; i<locOfSpaces.size(); ++i) //reinsert white space
+		{
+			encryptedMessage.insert(locOfSpaces.get(i), " ");
+		}
+		
+		String finalEncryption = encryptedMessage.toString();
+		
+		return finalEncryption;
 
 	}
 
@@ -144,8 +162,7 @@ public class BifidConverter
 		encryptedMessage = this.encryptPlaintextToHalfBifid(plaintext);
 		
 		encryptedMessage = this.convertHalfBifidToEncyptedText(encryptedMessage);
-		
-		
+				
 		return encryptedMessage;
 	}
 	
